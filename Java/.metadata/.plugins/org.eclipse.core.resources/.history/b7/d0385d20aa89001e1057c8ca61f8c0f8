@@ -1,0 +1,194 @@
+package Project;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.text.NumberFormatter;
+
+import java.awt.Color;
+import javax.swing.JLabel;
+import java.awt.Font;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
+
+import java.awt.event.ActionListener;
+import java.text.NumberFormat;
+import java.awt.event.ActionEvent;
+
+public class ShowIn4 extends JFrame {
+
+	private static final long serialVersionUID = 1L;
+	private static JPanel contentPane;
+	private static JTextField Receiver;
+	private static JTextField Amount;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String idacc) {
+		Actions mysql = new Actions();
+		mysql.Connect();
+		
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					ShowIn4 frame = new ShowIn4(idacc);
+					frame.setVisible(true);
+					
+					JButton CloseButton = new JButton("CLOSE");
+					CloseButton.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							frame.dispose();
+						}
+					});
+					CloseButton.setForeground(new Color(245, 222, 179));
+					CloseButton.setFont(new Font("Tahoma", Font.BOLD, 16));
+					CloseButton.setBackground(new Color(128, 0, 0));
+					CloseButton.setBounds(146, 328, 100, 40);
+					contentPane.add(CloseButton);
+					
+
+					
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}	
+	/**
+	 * Create the frame.
+	 */
+	public ShowIn4() {
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setBounds(100, 100, 400, 420);
+		contentPane = new JPanel();
+		contentPane.setBackground(new Color(110, 60, 30));
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JLabel Title = new JLabel("INFORMATION");
+		Title.setFont(new Font("Tahoma", Font.BOLD, 22));
+		Title.setForeground(new Color(245, 222, 179));
+		Title.setBounds(27, 20, 223, 45);
+		contentPane.add(Title);
+		
+		JLabel IDCusLabel = new JLabel("Identity Number: ");
+		IDCusLabel.setForeground(new Color(245, 222, 179));
+		IDCusLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
+		IDCusLabel.setBounds(27, 65, 350, 45);
+		contentPane.add(IDCusLabel);
+		
+		JLabel NameLabel = new JLabel("Name: ");
+		NameLabel.setForeground(new Color(245, 222, 179));
+		NameLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
+		NameLabel.setBounds(27, 115, 350, 45);
+		contentPane.add(NameLabel);
+		
+		JButton CloseButton = new JButton("CLOSE");
+		CloseButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		CloseButton.setForeground(new Color(245, 222, 179));
+		CloseButton.setFont(new Font("Tahoma", Font.BOLD, 16));
+		CloseButton.setBackground(new Color(128, 0, 0));
+		CloseButton.setBounds(166, 330, 100, 40);
+		contentPane.add(CloseButton);
+		
+		JLabel SexLabel = new JLabel("Sex: ");
+		SexLabel.setForeground(new Color(245, 222, 179));
+		SexLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
+		SexLabel.setBounds(27, 165, 169, 45);
+		contentPane.add(SexLabel);
+		
+		JLabel BirthLabel = new JLabel("Birthday: ");
+		BirthLabel.setForeground(new Color(245, 222, 179));
+		BirthLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
+		BirthLabel.setBounds(27, 215, 91, 45);
+		contentPane.add(BirthLabel);
+		
+		JLabel AdressLabel = new JLabel("Address: ");
+		AdressLabel.setForeground(new Color(245, 222, 179));
+		AdressLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
+		AdressLabel.setBounds(27, 265, 91, 45);
+		contentPane.add(AdressLabel);
+		
+		JButton ChangePassButton = new JButton("New Pass");
+		ChangePassButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		ChangePassButton.setForeground(new Color(245, 222, 179));
+		ChangePassButton.setFont(new Font("Tahoma", Font.BOLD, 12));
+		ChangePassButton.setBackground(Color.BLACK);
+		ChangePassButton.setBounds(240, 31, 110, 30);
+		contentPane.add(ChangePassButton);
+	}
+	
+	public ShowIn4(String idacc) {
+		Actions mysql = new Actions();
+		mysql.Connect();
+		
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setBounds(100, 100, 400, 420);
+		contentPane = new JPanel();
+		contentPane.setBackground(new Color(110, 60, 30));
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JLabel Title = new JLabel("INFORMATION");
+		Title.setFont(new Font("Tahoma", Font.BOLD, 22));
+		Title.setForeground(new Color(245, 222, 179));
+		Title.setBounds(27, 20, 223, 45);
+		contentPane.add(Title);
+		
+		JLabel IDCusLabel = new JLabel("Identity Number: " + mysql.getIDCus(idacc));
+		IDCusLabel.setForeground(new Color(245, 222, 179));
+		IDCusLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
+		IDCusLabel.setBounds(27, 65, 350, 45);
+		contentPane.add(IDCusLabel);
+		
+		JLabel NameLabel = new JLabel("Name: " + mysql.getName(idacc));
+		NameLabel.setForeground(new Color(245, 222, 179));
+		NameLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
+		NameLabel.setBounds(27, 115, 350, 45);
+		contentPane.add(NameLabel);
+		
+		JLabel SexLabel = new JLabel("Sex: " + mysql.getSex(idacc));
+		SexLabel.setForeground(new Color(245, 222, 179));
+		SexLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
+		SexLabel.setBounds(27, 165, 350, 45);
+		contentPane.add(SexLabel);
+		
+		JLabel BirthLabel = new JLabel("Birthday: " + mysql.getBirth(idacc));
+		BirthLabel.setForeground(new Color(245, 222, 179));
+		BirthLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
+		BirthLabel.setBounds(27, 215, 350, 45);
+		contentPane.add(BirthLabel);
+		
+		JLabel AdressLabel = new JLabel("Address: " + mysql.getAddress(idacc));
+		AdressLabel.setForeground(new Color(245, 222, 179));
+		AdressLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
+		AdressLabel.setBounds(27, 265, 350, 45);
+		contentPane.add(AdressLabel);
+		
+		JButton ChangePassButton = new JButton("New Pass");
+		ChangePassButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		ChangePassButton.setForeground(new Color(245, 222, 179));
+		ChangePassButton.setFont(new Font("Tahoma", Font.BOLD, 12));
+		ChangePassButton.setBackground(Color.BLACK);
+		ChangePassButton.setBounds(240, 31, 110, 30);
+		contentPane.add(ChangePassButton);
+	}
+}

@@ -1,0 +1,366 @@
+package Project;
+import java.util.Scanner;
+import java.sql.*;
+
+public class Actions {
+	private Statement stmt;
+	private ResultSet rs;
+	private Connection conn;
+
+	public Actions() {
+		Statement stmt = null;
+		ResultSet rs = null;
+		Connection conn = null;
+	}
+	
+	public void Connect() {
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
+			conn = DriverManager.getConnection("jdbc:mysql://localhost/moomoobank?"
+			+ "user=root");
+			System.out.println("Connected!");
+		} 
+		
+		catch (Exception ex) { //xử lý ngoại lệ nếu có
+			System.out.println("Failed to connect!");
+			ex.printStackTrace();
+		}
+	}
+	
+	public void Disconnect() throws SQLException {
+		if(conn != null) {
+				System.out.println("Disconnected!");
+				conn.close();
+		}
+	}
+	
+	public int InTransfer(String idsend, String idget, long money) {
+		try {
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery("call intransfer('" + idsend + "', '" + idget + "', '" + money + "')");
+			System.out.println("Done!");
+			return 1;
+		}
+		catch (SQLException ex){ 
+		 System.out.println("SQLException: " + ex.getMessage());
+		 return 0;
+		}
+	}
+	
+	public int ExTransfer(String idsend, String idget, String bank, long money) {
+		try {
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery("call extransfer('" + idsend + "', '" + idget + "', '" + bank + "', '" + money + "')");
+			System.out.println("Done!");
+			return 1;
+		}
+		catch (SQLException ex){ 
+		 System.out.println("SQLException: " + ex.getMessage());
+		 return 0;
+		}
+	}
+	
+	public int PhoneCharge(String idsend, String idget, long money) {
+		try {
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery("call phonecharge('" + idsend + "', '" + idget + "', '" + money + "')");
+			System.out.println("Done!");
+			return 1;
+		}
+		catch (SQLException ex){ 
+		 System.out.println("SQLException: " + ex.getMessage());
+		 return 0;
+		}
+	}
+	
+	public int SignUp(String idacc, String pass, String idcus, String phone, String pin) {
+		try { 
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery("call signup('" + idacc + "', '" + pass + "', '" +  idcus + "', '" + phone + "', '" + pin + "')");
+			System.out.println("Sign up successfully");
+			return 1;
+		}
+		catch (SQLException ex){ 
+			 System.out.println("SQLException: " + ex.getMessage());
+			 return 0;
+			}
+	}
+	
+	public void Show() {
+		try {
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery("SELECT idacc,pass FROM account");
+			if (stmt.execute("SELECT idacc,pass FROM account")) {
+				rs = stmt.getResultSet();
+			}
+			while (rs.next()) {
+				 String id = rs.getString("idacc"); 
+				 String pass = rs.getString("pass");
+				 System.out.println(id + "-" + pass);
+				}
+		}
+		catch (SQLException ex){ 
+		 System.out.println("SQLException: " + ex.getMessage());
+		}
+	}
+	
+	public String getIDacc(String idacc) {
+		String idacc1 = "1";
+		try {
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery("SELECT idacc FROM account WHERE idacc="+idacc);
+			if (stmt.execute("SELECT idacc FROM account WHERE idacc="+idacc)) {
+				rs = stmt.getResultSet();
+			}
+			while (rs.next()) 
+				 idacc1 = rs.getString("idacc");
+				
+		}
+		catch (SQLException ex){ 
+		 System.out.println("SQLException: " + ex.getMessage());
+		}
+		return idacc1;
+	}
+	
+	public String getPass(String idacc) {
+		String pass = "1";
+		try {
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery("SELECT pass FROM account WHERE idacc="+idacc);
+			if (stmt.execute("SELECT pass FROM account WHERE idacc="+idacc)) {
+				rs = stmt.getResultSet();
+			}
+			while (rs.next()) 
+				 pass = rs.getString("pass");
+				
+		}
+		catch (SQLException ex){ 
+		 System.out.println("SQLException: " + ex.getMessage());
+		}
+		return pass;
+	}
+	
+	public String getPIN(String idacc) {
+		String PIN = "1";
+		try {
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery("SELECT PIN FROM account WHERE idacc="+idacc);
+			if (stmt.execute("SELECT PIN FROM account WHERE idacc="+idacc)) {
+				rs = stmt.getResultSet();
+			}
+			while (rs.next()) 
+				 PIN = rs.getString("PIN");
+				
+		}
+		catch (SQLException ex){ 
+		 System.out.println("SQLException: " + ex.getMessage());
+		}
+		return PIN;
+	}
+	
+	public long getBalance(String idacc) {
+		long bal=0;
+		try {
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery("SELECT balance FROM customer WHERE idacc="+idacc);
+			if (stmt.execute("SELECT balance FROM customer WHERE idacc="+idacc)) {
+				rs = stmt.getResultSet();
+			}
+			while (rs.next()) 
+				 bal = rs.getInt("balance");
+				
+		}
+		catch (SQLException ex){ 
+		 System.out.println("SQLException: " + ex.getMessage());
+		}
+		return bal;
+	}
+	
+	public String getPhone(String idacc) {
+		String phone = "1";
+		try {
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery("SELECT phone FROM account WHERE idacc="+idacc);
+			if (stmt.execute("SELECT phone FROM account WHERE idacc="+idacc)) {
+				rs = stmt.getResultSet();
+			}
+			while (rs.next()) 
+				 phone = rs.getString("phone");
+				
+		}
+		catch (SQLException ex){ 
+		 System.out.println("SQLException: " + ex.getMessage());
+		}
+		return phone;
+	}
+	
+	public String getIDCus(String idacc) {
+		String result = "1";
+		try {
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery("select info.idcus from info inner join account on info.idcus=account.idcus where account.idacc ="+idacc);
+			if (stmt.execute("select info.idcus from info inner join account on info.idcus=account.idcus where account.idacc ="+idacc)) {
+				rs = stmt.getResultSet();
+			}
+			while (rs.next()) 
+				 result = rs.getString("idcus");
+				
+		}
+		catch (SQLException ex){ 
+		 System.out.println("SQLException: " + ex.getMessage());
+		}
+		return result;
+	}
+	
+	public String getName(String idacc) {
+		String name = "1";
+		try {
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery("select info.namecus from info inner join account on info.idcus=account.idcus where account.idacc ="+idacc);
+			if (stmt.execute("select info.namecus from info inner join account on info.idcus=account.idcus where account.idacc ="+idacc)) {
+				rs = stmt.getResultSet();
+			}
+			while (rs.next()) 
+				 name = rs.getString("namecus");
+				
+		}
+		catch (SQLException ex){ 
+		 System.out.println("SQLException: " + ex.getMessage());
+		}
+		return name;
+	}
+	
+	public String getSex(String idacc) {
+		String result = "1";
+		try {
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery("select info.sexcus from info inner join account on info.idcus=account.idcus where account.idacc ="+idacc);
+			if (stmt.execute("select info.sexcus from info inner join account on info.idcus=account.idcus where account.idacc ="+idacc)) {
+				rs = stmt.getResultSet();
+			}
+			while (rs.next()) 
+				 result = rs.getString("sexcus");
+				
+		}
+		catch (SQLException ex){ 
+		 System.out.println("SQLException: " + ex.getMessage());
+		}
+		return result;
+	}
+	
+	public String getBirth(String idacc) {
+		String result = "1";
+		try {
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery("select info.birthcus from info inner join account on info.idcus=account.idcus where account.idacc ="+idacc);
+			if (stmt.execute("select info.birthcus from info inner join account on info.idcus=account.idcus where account.idacc ="+idacc)) {
+				rs = stmt.getResultSet();
+			}
+			while (rs.next()) 
+				 result = rs.getString("birthcus");
+				
+		}
+		catch (SQLException ex){ 
+		 System.out.println("SQLException: " + ex.getMessage());
+		}
+		return result;
+	}
+	
+	public String getAddress(String idacc) {
+		String result = "1";
+		try {
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery("select info.address from info inner join account on info.idcus=account.idcus where account.idacc ="+idacc);
+			if (stmt.execute("select info.address from info inner join account on info.idcus=account.idcus where account.idacc ="+idacc)) {
+				rs = stmt.getResultSet();
+			}
+			while (rs.next()) 
+				 result = rs.getString("address");
+				
+		}
+		catch (SQLException ex){ 
+		 System.out.println("SQLException: " + ex.getMessage());
+		}
+		return result;
+	}
+	
+	public String exID(String idacc, String bank) {
+		String result = "1";
+		try {
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery("select exid from exacc where exid = " + idacc +" and excomp = '" + bank +"'");
+			if (stmt.execute("select exid from exacc where exid =" + idacc +" and excomp = '" + bank + "'")) {
+				rs = stmt.getResultSet();
+			}
+			while (rs.next()) 
+				 result = rs.getString("exid");
+				
+		}
+		catch (SQLException ex){ 
+		 System.out.println("SQLException: " + ex.getMessage());
+		}
+		return result;
+	}
+	
+	public String exName(String idacc, String bank) {
+		String result = "1";
+		try {
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery("select exname from exacc where exid = " + idacc +" and excomp = '" + bank +"'");
+			if (stmt.execute("select exname from exacc where exid = " + idacc +" and excomp = '" + bank +"'")) {
+				rs = stmt.getResultSet();
+			}
+			while (rs.next()) 
+				 result = rs.getString("exname");
+				
+		}
+		catch (SQLException ex){ 
+		 System.out.println("SQLException: " + ex.getMessage());
+		}
+		return result;
+	}
+	
+	public String getPhonefromTel(String phone) {
+		String result = "1";
+		try {
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery("select phone from tel where phone = " + phone);
+			if (stmt.execute("select phone from tel where phone = " + phone)) {
+				rs = stmt.getResultSet();
+			}
+			while (rs.next()) 
+				 result = rs.getString("phone");
+				
+		}
+		catch (SQLException ex){ 
+		 System.out.println("SQLException: " + ex.getMessage());
+		}
+		return result;
+	}
+	
+	public String[] getHistory(String idacc) {
+		String[] result = new String[50];
+		try {
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery("select * from historytransfer where idacc =" + idacc + " order by time desc");
+			if (stmt.execute("select * from historytransfer where idacc =" + idacc + " order by time desc")) {
+				rs = stmt.getResultSet();
+			}
+			int i=0;
+			while (rs.next()) {
+			     int money = rs.getInt("money");
+			     String time = rs.getString("time");
+			     if(money>0)
+			    	 result[i] = new String(" " + time + "      Balance: +" + money + "\n");
+			     else
+			    	 result[i] = new String(" " + time + "      Balance: " + money + "\n");
+				 i++;
+			}
+								
+		}
+		catch (SQLException ex){ 
+		 System.out.println("SQLException: " + ex.getMessage());
+		}
+		return result;
+	}
+}

@@ -1,0 +1,153 @@
+package Project;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JLabel;
+import java.awt.Font;
+import javax.swing.JTextArea;
+import java.awt.Color;
+import javax.swing.SwingConstants;
+import javax.swing.JPasswordField;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.JTextField;
+import javax.swing.ImageIcon;
+
+public class ChangePass extends JFrame {
+
+	private static final long serialVersionUID = 1L;
+	private static JPanel contentPane;
+	private static JPasswordField NewPass;
+	private static JPasswordField PIN;
+	private static JTextField IDCus;
+	private static JPasswordField OldPass;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String idacc) {
+		Actions mysql = new Actions();
+		mysql.Connect();
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {		
+				try {
+					ChangePass frame = new ChangePass();
+					frame.setVisible(true);
+					
+					
+					OldPass = new JPasswordField();
+					OldPass.setFont(new Font("Tahoma", Font.BOLD, 14));
+					OldPass.setBounds(87, 109, 140, 20);
+					contentPane.add(OldPass);
+					
+					NewPass = new JPasswordField();
+					NewPass.setFont(new Font("Tahoma", Font.BOLD, 14));
+					NewPass.setBounds(87, 150, 140, 20);
+					contentPane.add(NewPass);
+									
+					
+					JButton btnNewButton = new JButton("");
+					btnNewButton.setIcon(new ImageIcon("F:\\Cong Viec\\Java\\ask.png"));
+					btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 13));
+					btnNewButton.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							SignUpPassAsk ask1 = new SignUpPassAsk();
+							ask1.setVisible(true);
+						}
+					});
+					btnNewButton.setBounds(237, 150, 20, 20);
+					contentPane.add(btnNewButton);
+					
+					
+
+					JButton ChangePass = new JButton("Change");
+					ChangePass.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							String oldpass = String.valueOf(OldPass.getPassword());
+							String newpass = String.valueOf(NewPass.getPassword());
+							System.out.println(oldpass + " " + newpass);
+							if(mysql.getPass(idacc)==oldpass && oldpass!=newpass) {
+								if(mysql.changePass(idacc, newpass)==1) {
+									ChangePassSuccess success = new ChangePassSuccess();
+							    	success.setVisible(true);
+							    	frame.dispose();
+								}
+								else {
+									SignUpFail fail = new SignUpFail();
+							    	fail.setVisible(true);
+								}
+							}
+							else {
+								SignUpFail fail = new SignUpFail();
+						    	fail.setVisible(true);
+							}
+						}
+					});
+					ChangePass.setForeground(new Color(255, 255, 255));
+					ChangePass.setBackground(new Color(0, 128, 128));
+					ChangePass.setFont(new Font("Tahoma", Font.BOLD, 14));
+					ChangePass.setBounds(27, 200, 89, 40);
+					contentPane.add(ChangePass);
+					
+					JButton Cancel = new JButton("Cancel");
+					Cancel.setBackground(new Color(139, 0, 0));
+					Cancel.setForeground(new Color(255, 255, 255));
+					Cancel.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							frame.dispose();
+						}
+					});
+					Cancel.setFont(new Font("Tahoma", Font.BOLD, 14));
+					Cancel.setBounds(165, 200, 89, 40);
+					contentPane.add(Cancel);
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public ChangePass() {
+		
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setBounds(100, 100, 300, 300);
+		contentPane = new JPanel();
+		contentPane.setBackground(new Color(255, 255, 255));
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+
+		JLabel Hello = new JLabel("Change your password");
+		Hello.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 15));
+		Hello.setBounds(10, 11, 314, 38);
+		contentPane.add(Hello);
+		
+		JLabel Please = new JLabel("Please enter your information:");
+		Please.setFont(new Font("Tahoma", Font.BOLD, 14));
+		Please.setBounds(10, 54, 240, 38);
+		contentPane.add(Please);
+		
+		JLabel OldLabel = new JLabel("Old Pass: ");
+		OldLabel.setVerticalAlignment(SwingConstants.TOP);
+		OldLabel.setFont(new Font("Tahoma", Font.BOLD, 13));
+		OldLabel.setBounds(10, 110, 120, 23);
+		contentPane.add(OldLabel);
+		
+		JLabel NewLabel = new JLabel("New Pass:");
+		NewLabel.setFont(new Font("Tahoma", Font.BOLD, 13));
+		NewLabel.setBounds(10, 151, 120, 14);
+		contentPane.add(NewLabel);
+		
+		
+	}
+}

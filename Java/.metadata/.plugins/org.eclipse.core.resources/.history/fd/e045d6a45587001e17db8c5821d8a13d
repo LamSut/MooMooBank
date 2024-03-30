@@ -1,0 +1,279 @@
+package Project;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JLabel;
+import java.awt.Font;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.Color;
+import javax.swing.JRadioButton;
+import javax.swing.JToggleButton;
+import java.awt.Toolkit;
+
+public class Application extends JFrame {
+
+	private static final long serialVersionUID = 1L;
+	private static JPanel contentPane;
+	private static String usr;
+	private static String name;
+	private static long bal;
+	private static Actions mysql;
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String idacc, String nameacc) {
+		
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				
+				try {
+					Application frame = new Application(idacc,nameacc);
+					frame.setVisible(true);		
+					
+					
+					JButton Internal = new JButton("INTERNAL MONEY TRANSER");
+					Internal.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							frame.callInTransfer(usr,bal);
+							frame.dispose();
+						}
+					});
+					Internal.setBackground(new Color(128, 60, 30));
+					Internal.setForeground(new Color(255, 248, 220));
+					Internal.setFont(new Font("Tahoma", Font.BOLD, 14));
+					Internal.setBounds(94, 165, 250, 50);
+					contentPane.add(Internal);
+					
+					JButton External = new JButton("EXTERNAL MONEY TRANSER");
+					External.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							frame.callExTransfer(usr,bal);
+							frame.dispose();
+						}
+					});
+					External.setBackground(new Color(128, 60, 30));
+					External.setForeground(new Color(255, 248, 220));
+					External.setFont(new Font("Tahoma", Font.BOLD, 14));
+					External.setBounds(94, 235, 250, 50);
+					contentPane.add(External);
+					
+					
+					JButton Phone = new JButton("PHONE RECHARGE");
+					Phone.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							frame.callPhone(usr,bal);
+							frame.dispose();
+						}
+					});
+					Phone.setBackground(new Color(128, 60, 30));
+					Phone.setForeground(new Color(255, 248, 220));
+					Phone.setFont(new Font("Tahoma", Font.BOLD, 14));
+					Phone.setBounds(94, 305, 250, 50);
+					contentPane.add(Phone);
+					
+					
+					JButton ShowInfo = new JButton("Show Information");
+					ShowInfo.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							frame.callShowIn4(idacc);
+						}
+					});
+					ShowInfo.setBackground(new Color(0, 0, 0));
+					ShowInfo.setForeground(new Color(255, 248, 220));
+					ShowInfo.setFont(new Font("Tahoma", Font.BOLD, 14));
+					ShowInfo.setBounds(20, 400, 200, 40);
+					contentPane.add(ShowInfo);
+
+
+					JButton ShowHistory = new JButton("History");
+					ShowHistory.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							frame.callShowHistory(idacc);
+						}
+					});
+					ShowHistory.setBackground(new Color(0, 0, 0));
+					ShowHistory.setForeground(new Color(255, 248, 220));
+					ShowHistory.setFont(new Font("Tahoma", Font.BOLD, 14));
+					ShowHistory.setBounds(450, 55, 100, 25);
+					contentPane.add(ShowHistory);
+
+					JButton Logout = new JButton("Logout");
+					Logout.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							frame.callLogin();
+							frame.dispose();
+						}
+					});
+					Logout.setFont(new Font("Tahoma", Font.BOLD, 14));
+					Logout.setForeground(new Color(255, 250, 250));
+					Logout.setBackground(new Color(139, 0, 0));
+					Logout.setBounds(280, 400, 130, 40);
+					contentPane.add(Logout);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public void callLogin() {
+		AppLogin.main(null);
+	}
+	
+	public void callInTransfer(String usr, long bal) {
+		TransferInternal.main(usr, bal);
+	}
+	
+	public void callExTransfer(String usr, long bal) {
+		TransferExternal.main(usr, bal);
+	}
+	
+	public void callPhone(String usr, long bal) {
+		TransferPhone.main(usr, bal);
+	}
+	
+	public void callShowIn4(String idacc) {
+		ShowIn4.main(idacc);
+	}
+	
+	public void callShowHistory(String idacc) {
+		ShowHistory.main(idacc);
+	}
+	
+	public Application() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage("F:\\Cong Viec\\Java\\moooo.png"));
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setBounds(100, 100, 450, 500);
+		contentPane = new JPanel();
+		contentPane.setBackground(new Color(250, 250, 210));
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		
+		JLabel Welcome = new JLabel("Welcome !");
+		Welcome.setForeground(new Color(128, 64, 64));
+		Welcome.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 18));
+		Welcome.setBounds(22, 10, 249, 49);
+		Welcome.setHorizontalAlignment(SwingConstants.LEADING);
+		contentPane.add(Welcome);
+		
+		JLabel Please = new JLabel("SELECT OPTION");
+		Please.setForeground(new Color(128, 64, 64));
+		Please.setFont(new Font("Tahoma", Font.BOLD, 28));
+		Please.setBounds(105, 81, 305, 69);
+		contentPane.add(Please);
+		
+		JLabel Balance = new JLabel("Balance: " );
+		Balance.setFont(new Font("Tahoma", Font.BOLD, 14));
+		Balance.setBounds(25, 75, 65, 25);
+		Balance.setHorizontalAlignment(SwingConstants.LEADING);
+		contentPane.add(Balance);
+		
+		
+		JButton ShowBal = new JButton("Show");
+		ShowBal.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		ShowBal.setForeground(new Color(255, 250, 250));
+		ShowBal.setFont(new Font("Tahoma", Font.BOLD, 14));
+		ShowBal.setBackground(new Color(139, 0, 0));
+		ShowBal.setBounds(90, 55, 60, 25);
+		contentPane.add(ShowBal);
+		//
+
+	}
+	
+	public Application(String usr1, String name1) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage("F:\\Cong Viec\\Java\\moooo.png"));
+		Actions mysql = new Actions();
+		mysql.Connect();
+		
+		usr=new String(usr1);
+		name= new String(name1);
+		bal=mysql.getBalance(usr1);
+
+		
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setBounds(100, 100, 450, 500);
+		contentPane = new JPanel();
+		contentPane.setBackground(new Color(250, 250, 210));
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		
+		JLabel Welcome = new JLabel("Welcome " + name + "!");
+		Welcome.setForeground(new Color(128, 64, 64));
+		Welcome.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 18));
+		Welcome.setBounds(22, 10, 350, 49);
+		Welcome.setHorizontalAlignment(SwingConstants.LEADING);
+		contentPane.add(Welcome);
+		
+		JLabel Please = new JLabel("SELECT OPTION");
+		Please.setForeground(new Color(128, 64, 64));
+		Please.setFont(new Font("Tahoma", Font.BOLD, 28));
+		Please.setBounds(105, 90, 305, 69);
+		contentPane.add(Please);
+		
+		JLabel Balance = new JLabel("Balance: " );
+		Balance.setFont(new Font("Tahoma", Font.BOLD, 14));
+		Balance.setBounds(25, 55, 65, 25);
+		Balance.setHorizontalAlignment(SwingConstants.LEADING);
+		contentPane.add(Balance);
+		
+		
+		JButton ShowBal = new JButton("Show");
+		ShowBal.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		ShowBal.setForeground(new Color(255, 250, 250));
+		ShowBal.setFont(new Font("Tahoma", Font.BOLD, 14));
+		ShowBal.setBackground(new Color(0, 0, 0));
+		ShowBal.setBounds(90, 55, 80, 25);
+		contentPane.add(ShowBal);
+		
+		JButton money = new JButton(bal + " VND");
+		money.setFont(new Font("Tahoma", Font.BOLD, 14));
+		money.setBackground(new Color(250, 250, 210));
+		money.setBounds(90, 55, 200, 25);
+		money.setHorizontalAlignment(SwingConstants.LEADING);
+		contentPane.add(money);
+		money.setVisible(false);
+		
+		ShowBal.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ShowBal.setVisible(false);
+				money.setVisible(true);
+			}
+		});
+		money.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ShowBal.setVisible(true);
+				money.setVisible(false);
+			}
+		});
+	}
+	
+	public String getUsrAcc() {
+		return usr;
+	}
+	public String getNameAcc() {
+		return name;
+	}
+}

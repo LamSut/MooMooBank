@@ -1,0 +1,25 @@
+package ProjectAdmin;
+
+import java.sql.SQLException;
+
+public class UsingActions {
+	public static void main(String[] args) {
+		Actions mysql = new Actions();
+		mysql.Connect();
+		System.out.println("Starting Project...");
+		
+//		mysql.addInfo("011111111111", "monki", "Male", "2003-02-02", "homeless");
+//		mysql.addTel("0999999999","fake" , 10000);
+//		mysql.addExAcc("1313313313", "monki", "Vietcombank", 0);
+//		mysql.delInfo("011111111111");
+//		mysql.delPhone("0999999999");
+//		mysql.delExAcc("1313313313", "Vietcombank");
+		mysql.delAccount("9907543819");
+		
+		try {
+			mysql.Disconnect();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+}

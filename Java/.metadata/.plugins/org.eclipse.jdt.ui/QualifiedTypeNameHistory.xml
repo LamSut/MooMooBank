@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+    <fullyQualifiedTypeName name="java.awt.Cursor"/>
+    <fullyQualifiedTypeName name="javax.imageio.ImageIO"/>
+    <fullyQualifiedTypeName name="java.awt.image.BufferedImage"/>
+    <fullyQualifiedTypeName name="java.io.File"/>
+    <fullyQualifiedTypeName name="Project.LogFailed"/>
+    <fullyQualifiedTypeName name="java.text.NumberFormat"/>
+    <fullyQualifiedTypeName name="javax.swing.text.NumberFormatter"/>
+    <fullyQualifiedTypeName name="javax.swing.JFormattedTextField"/>
+    <fullyQualifiedTypeName name="javax.swing.SwingUtilities"/>
+</qualifiedTypeNameHistroy>

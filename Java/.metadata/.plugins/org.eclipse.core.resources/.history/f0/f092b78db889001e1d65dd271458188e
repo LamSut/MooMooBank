@@ -1,0 +1,47 @@
+//JUST FOR TESTING FUNCTION IN TERMINAL//
+
+package Project;
+import java.sql.*;
+
+public class ActionsTesting {
+	public static void main(String[] args) {
+		Actions mysql = new Actions();
+		mysql.Connect();
+		System.out.println("Starting Project...");
+		
+
+//		mysql.Show();
+//		System.out.println(mysql.getIDacc("9907543817"));
+//		System.out.println(mysql.getBalance("9907543817"));
+//		System.out.println(mysql.getPhone("9907543817"));
+//		System.out.println(mysql.getPIN("9907543817"));
+//		mysql.SignUp("9999999999", "Suttocdo_007", "000000000002", "0907543818", "666666");
+//		mysql.InTransfer("9907543817", "9907543818", 50000);
+//		
+//		System.out.println(mysql.getIDCus("9907543817"));
+//		System.out.println(mysql.getName("9907543817"));
+//		System.out.println(mysql.getSex("9907543817"));
+//		System.out.println(mysql.getBirth("9907543817"));
+//		System.out.println(mysql.getAddress("9907543817"));
+//		
+//		System.out.println(mysql.exName("2222222222","Vietcombank"));
+//		mysql.ExTransfer("9907543817", "4444444444","TP Bank", 1000000);
+//		
+//		System.out.println(mysql.getPhonefromTel("0907543817"));
+//		System.out.println(mysql.getHistory("9907543817"));
+//		mysql.changePass("9907543818","Suttocdo_007");
+//		mysql.addInfo("011111111111", "monki", "Male", "2003-02-02", "homeless");
+//		mysql.addTel("0999999999","fake" , 10000);
+//		mysql.addExAcc("1313313313", "monki", "Vietcombank", 0);
+//		mysql.delInfo("011111111111");
+//		mysql.delPhone("0999999999");
+//		mysql.delExAcc("1313313313", "Vietcombank");
+		mysql.delAccount("9907543819");
+		
+		try {
+			mysql.Disconnect();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+}

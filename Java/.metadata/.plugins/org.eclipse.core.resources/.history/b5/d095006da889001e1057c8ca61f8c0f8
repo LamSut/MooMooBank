@@ -1,0 +1,181 @@
+package Project;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JLabel;
+import java.awt.Font;
+import javax.swing.JTextArea;
+import java.awt.Color;
+import javax.swing.SwingConstants;
+import javax.swing.JPasswordField;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.JTextField;
+import javax.swing.ImageIcon;
+
+public class ChangePass extends JFrame {
+
+	private static final long serialVersionUID = 1L;
+	private static JPanel contentPane;
+	private static JPasswordField Pass;
+	private static JPasswordField PIN;
+	private static JTextField IDCus;
+	private static JTextField Phone;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		Actions mysql = new Actions();
+		mysql.Connect();
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {		
+				try {
+					ChangePass frame = new ChangePass();
+					frame.setVisible(true);
+					
+					IDCus = new JTextField();
+					IDCus.setFont(new Font("Tahoma", Font.BOLD, 14));
+					IDCus.setBounds(136, 93, 140, 20);
+					contentPane.add(IDCus);
+					IDCus.setColumns(10);
+					
+					Phone = new JTextField();
+					Phone.setFont(new Font("Tahoma", Font.BOLD, 14));
+					Phone.setColumns(10);
+					Phone.setBounds(136, 133, 140, 20);
+					contentPane.add(Phone);
+					
+					Pass = new JPasswordField();
+					Pass.setFont(new Font("Tahoma", Font.BOLD, 14));
+					Pass.setBounds(136, 172, 140, 20);
+					contentPane.add(Pass);
+					
+					PIN = new JPasswordField();
+					PIN.setFont(new Font("Tahoma", Font.BOLD, 14));
+					PIN.setBounds(136, 212, 70, 20);
+					contentPane.add(PIN);
+					
+					
+					JButton btnNewButton = new JButton("");
+					btnNewButton.setIcon(new ImageIcon("F:\\Cong Viec\\Java\\ask.png"));
+					btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 13));
+					btnNewButton.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							ChangePassPassAsk ask1 = new ChangePassPassAsk();
+							ask1.setVisible(true);
+						}
+					});
+					btnNewButton.setBounds(280, 172, 20, 20);
+					contentPane.add(btnNewButton);
+					
+					
+					JButton btnNewButton_1 = new JButton("");
+					btnNewButton_1.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							ChangePassPINAsk ask2 = new ChangePassPINAsk();
+							ask2.setVisible(true);
+						}
+					});
+					btnNewButton_1.setIcon(new ImageIcon("F:\\Cong Viec\\Java\\ask.png"));
+					btnNewButton_1.setFont(new Font("Tahoma", Font.BOLD, 13));
+					btnNewButton_1.setBounds(210, 212, 20, 20);
+					contentPane.add(btnNewButton_1);
+					
+					
+					JButton Sign = new JButton("Sign Up");
+					Sign.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							String idcus = IDCus.getText();
+							String phone = Phone.getText();
+							String idacc = phone.replaceFirst("0", "9");
+							String pass = String.valueOf(Pass.getPassword());
+							String pin = String.valueOf(PIN.getPassword());
+							if(mysql.ChangePass(idacc, pass, idcus, phone, pin)==1) {
+								ChangePassSuccess success = new ChangePassSuccess(idacc);
+						    	success.setVisible(true);
+						    	frame.dispose();
+							}
+							else {
+								ChangePassFail fail = new ChangePassFail();
+						    	fail.setVisible(true);
+							}
+						}
+					});
+					Sign.setForeground(new Color(255, 255, 255));
+					Sign.setBackground(new Color(0, 128, 128));
+					Sign.setFont(new Font("Tahoma", Font.BOLD, 14));
+					Sign.setBounds(27, 250, 89, 40);
+					contentPane.add(Sign);
+					
+					JButton Cancel = new JButton("Cancel");
+					Cancel.setBackground(new Color(139, 0, 0));
+					Cancel.setForeground(new Color(255, 255, 255));
+					Cancel.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							frame.dispose();
+						}
+					});
+					Cancel.setFont(new Font("Tahoma", Font.BOLD, 14));
+					Cancel.setBounds(165, 250, 89, 40);
+					contentPane.add(Cancel);
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public ChangePass() {
+		
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setBounds(100, 100, 347, 347);
+		contentPane = new JPanel();
+		contentPane.setBackground(new Color(255, 255, 255));
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JLabel Hello = new JLabel("Let's get start to get free 50000VND :3");
+		Hello.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 15));
+		Hello.setBounds(10, 11, 314, 38);
+		contentPane.add(Hello);
+		
+		JLabel Please = new JLabel("Please enter your information:");
+		Please.setFont(new Font("Tahoma", Font.BOLD, 14));
+		Please.setBounds(10, 44, 240, 38);
+		contentPane.add(Please);
+		
+		JLabel IDLabel = new JLabel("Identity Number:");
+		IDLabel.setFont(new Font("Tahoma", Font.BOLD, 13));
+		IDLabel.setBounds(10, 91, 120, 23);
+		contentPane.add(IDLabel);
+		
+		JLabel PhoneLabel = new JLabel("Phone Number:");
+		PhoneLabel.setVerticalAlignment(SwingConstants.TOP);
+		PhoneLabel.setFont(new Font("Tahoma", Font.BOLD, 13));
+		PhoneLabel.setBounds(10, 133, 120, 23);
+		contentPane.add(PhoneLabel);
+		
+		JLabel PassLabel = new JLabel("Password:");
+		PassLabel.setFont(new Font("Tahoma", Font.BOLD, 13));
+		PassLabel.setBounds(10, 173, 120, 14);
+		contentPane.add(PassLabel);
+		
+		JLabel PINLabel = new JLabel("PIN Number:");
+		PINLabel.setFont(new Font("Tahoma", Font.BOLD, 13));
+		PINLabel.setBounds(10, 212, 120, 17);
+		contentPane.add(PINLabel);
+		
+		
+	}
+}
