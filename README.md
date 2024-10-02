@@ -1,1 +1,1 @@
-Banking application with Java GUI
+stupid app
