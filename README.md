@@ -1,6 +1,8 @@
 # MooMooBank
 
-MooMooBank is a Java-based desktop banking system built with Java Swing for the user interface and MySQL for data storage. This system simulates common banking functionalities in a secure and user-friendly way.
+MooMooBank is a Java-based desktop banking system built with Java Swing for the user interface and MySQL for data storage. This system simulates common banking functionalities in a secure and user-friendly way. 
+Refer to this document for additional details: [MooMooBank](https://github.com/LamSut/MooMooBank/blob/master/LamB2111933_ThanhB2111952.pptx)
+
 
 ## Features
 
